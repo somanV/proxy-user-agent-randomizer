@@ -15,7 +15,7 @@ This project provides a basic foundation for web scraping and automation tasks, 
 
 - `utils/web_requester.py`: Main WebRequester class
 - `utils/user_agent_randomizer.py`: Generates random user agents
-- `utils/proxies_loader.py`: Loads and parses proxies from a file
+- `utils/proxy_loader.py`: Loads and parses proxies from a file
 - `models/proxy.py`: Proxy model class
 - `config/logging_config.py`: Logging configuration
 - `tests/`: Unit tests for core components
@@ -44,7 +44,7 @@ This project provides a basic foundation for web scraping and automation tasks, 
 
    ```python
    from utils.web_requester import WebRequester
-   from utils.proxies_loader import ProxyLoader
+   from utils.proxy_loader import ProxyLoader
    import random
 
    proxies = ProxyLoader.load_proxies()
