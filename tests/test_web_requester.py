@@ -2,18 +2,16 @@ import unittest
 import requests
 from unittest.mock import patch, MagicMock
 from utils.web_requester import WebRequester
-from utils.proxies_loader import Proxy
+from models.proxy import Proxy
 
 class TestWebRequester(unittest.TestCase):
 
-    @patch('utils.web_requester.ProxyLoader')
     @patch('utils.web_requester.UserAgentRandomizer')
-    def setUp(self, mock_user_agent_randomizer, mock_proxy_loader):
+    def setUp(self, mock_user_agent_randomizer):
         self.mock_proxy = Proxy('127.0.0.1', 8080, 'user', 'pass')
-        mock_proxy_loader.load_proxies.return_value = [self.mock_proxy]
         self.mock_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         mock_user_agent_randomizer.return_value.generate.return_value = self.mock_user_agent
-        self.web_requester = WebRequester()
+        self.web_requester = WebRequester(self.mock_proxy)
 
     @patch('utils.web_requester.requests.request')
     def test_make_request_success(self, mock_request):
@@ -29,8 +27,8 @@ class TestWebRequester(unittest.TestCase):
             method='GET',
             url=url,
             proxies={
-                'http': f'http://{self.mock_proxy.username}:{self.mock_proxy.password}@{self.mock_proxy.host}:{self.mock_proxy.port}',
-                'https': f'https://{self.mock_proxy.username}:{self.mock_proxy.password}@{self.mock_proxy.host}:{self.mock_proxy.port}'
+                'http': f'http://user:pass@127.0.0.1:8080',
+                'https': f'https://user:pass@127.0.0.1:8080'
             },
             headers={'User-Agent': self.mock_user_agent}
         )
@@ -50,8 +48,8 @@ class TestWebRequester(unittest.TestCase):
             method='POST',
             url=url,
             proxies={
-                'http': f'http://{self.mock_proxy.username}:{self.mock_proxy.password}@{self.mock_proxy.host}:{self.mock_proxy.port}',
-                'https': f'https://{self.mock_proxy.username}:{self.mock_proxy.password}@{self.mock_proxy.host}:{self.mock_proxy.port}'
+                'http': f'http://user:pass@127.0.0.1:8080',
+                'https': f'https://user:pass@127.0.0.1:8080'
             },
             headers={'User-Agent': self.mock_user_agent},
             params=params

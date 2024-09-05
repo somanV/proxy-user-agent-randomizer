@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from utils.proxies_loader import ProxyLoader, Proxy
+from utils.proxy_loader import ProxyLoader, Proxy
 
 class TestProxyLoader(unittest.TestCase):
     def test_parse_proxies_valid(self):

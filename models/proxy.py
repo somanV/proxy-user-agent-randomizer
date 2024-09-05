@@ -1,5 +1,5 @@
 class Proxy:
-    def __init__(self, host: str, port: int, username: str, password: str):
+    def __init__(self, host: str, port: int, username: str = None, password: str = None):
         self.host = host
         self.port = port
         self.username = username

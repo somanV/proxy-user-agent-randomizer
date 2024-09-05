@@ -38,7 +38,8 @@ class WebRequester:
         return headers
 
     def _prepare_proxy_dict(self) -> Dict[str, str]:
+        auth = f"{self.proxy.username}:{self.proxy.password}@" if self.proxy.username and self.proxy.password else ""
         return {
-            'http': f'http://{self.proxy.username}:{self.proxy.password}@{self.proxy.host}:{self.proxy.port}',
-            'https': f'https://{self.proxy.username}:{self.proxy.password}@{self.proxy.host}:{self.proxy.port}'
+            'http': f'http://{auth}{self.proxy.host}:{self.proxy.port}',
+            'https': f'https://{auth}{self.proxy.host}:{self.proxy.port}'
         }
