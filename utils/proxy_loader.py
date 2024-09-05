@@ -36,7 +36,7 @@ class ProxyLoader:
         if not proxies:
             raise ValueError("No valid proxies found in the file")
 
-        logger.info(f"Successfully loaded {len(proxies)} proxies")
+        logger.debug(f"Successfully loaded {len(proxies)} proxies")
         return proxies
 
     @staticmethod
