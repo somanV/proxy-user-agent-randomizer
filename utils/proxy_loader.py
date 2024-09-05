@@ -1,26 +1,25 @@
 import os
-from typing import List
 import re
 import logging
-from models.proxy import Proxy 
+from typing import List
+from models.proxy import Proxy
 
 logger = logging.getLogger(__name__)
 
 class ProxyLoader:
     @staticmethod
     def load_proxies(file_path: str = "resources/proxies.txt") -> List[Proxy]:
-        logger.debug(f"Attempting to load proxies from file: {file_path}")
+        logger.debug(f"Loading proxies from file: {file_path}")
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"Proxy file not found: {file_path}")
 
         with open(file_path, "r") as file:
-            return ProxyLoader._parse_proxies(file.readlines())
+            return ProxyLoader._parse_proxies(file)
 
     @staticmethod
-    def _parse_proxies(lines: List[str]) -> List[Proxy]:
-        logger.debug(f"Parsing {len(lines)} lines from proxy file")
+    def _parse_proxies(file) -> List[Proxy]:
         proxies = []
-        for line_number, line in enumerate(lines, 1):
+        for line_number, line in enumerate(file, 1):
             line = line.strip()
             if not line:
                 logger.debug(f"Skipping empty line {line_number}")
@@ -48,10 +47,4 @@ class ProxyLoader:
             raise ValueError("Invalid proxy format")
 
         host, port, username, password = match.groups()
-        
-        try:
-            port = int(port)
-        except ValueError:
-            raise ValueError("Invalid port number")
-
-        return Proxy(host, port, username, password)
+        return Proxy(host, int(port), username, password)

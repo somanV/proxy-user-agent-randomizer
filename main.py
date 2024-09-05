@@ -1,7 +1,7 @@
+import random
+from utils.proxy_loader import ProxyLoader
 from utils.web_requester import WebRequester
 from config.logging_config import configure_logging
-from utils.proxy_loader import ProxyLoader
-import random
 
 def main():
     logger = configure_logging()
